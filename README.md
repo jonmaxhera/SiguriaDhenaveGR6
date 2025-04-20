@@ -36,6 +36,14 @@ Blloqet:
 "LOX" → riorganizohet si "XLO"
 Mesazhi i shifruar: "LHEXLO"
 
+Shifrim:
+Zgjidh një opsion (1 ose 2): 1
+Shkruaj mesazhin për shifrim: HELLO
+Mesazhi i shifruar: LHEXLO
+Deshifrim:
+Zgjidh një opsion (1 ose 2): 2
+Shkruaj mesazhin për deshifrim: LHEXLO
+Mesazhi i deshifruar: HELLO
 ----------------------------------------------------------------
 2. Shifrimi Bidil (Atbash)
 Përshkrimi
@@ -44,5 +52,14 @@ Shifrimi Bidil është një cipher me zëvendësim monoalfabetik, ku çdo shkron
 A ↔ Z, B ↔ Y, ..., M ↔ N
 
 Përdoret e njëjta logjikë për shifrim dhe deshifrim
-
 Simbolet, numrat dhe hapësirat nuk ndryshohen
+---
+Shembull Ekzekutimi
+Shifrim:
+Zgjidh një opsion (1 ose 2): 1
+Shkruaj mesazhin: Hello World!
+Mesazhi i shifruar: Svool Dliow!
+Deshifrim:
+Zgjidh një opsion (1 ose 2): 2
+Shkruaj mesazhin: Svool Dliow!
+Mesazhi i deshifruar: Hello World!
