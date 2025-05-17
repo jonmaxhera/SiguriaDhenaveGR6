@@ -1,1 +1,56 @@
+ Sistemi i Autentifikimit me TOTP – Përshkrimi i Funksionimit
 
+Ky projekt është një implementim i thjeshtë i sistemit të autentifikimit me TOTP (Time-based One-Time Password), që përdor një kod të gjeneruar në bazë të kohës dhe një sekreti të përbashkët për të verifikuar përdoruesin.
+
+---
+
+## Çfarë kemi bërë për të krijuar këtë sistem?
+
+1. **Krijimi i algoritmit TOTP (klasa `TOTPUtil`):**  
+   - Përmes një sekreti të koduar në Base64, ne përdorim HMAC-SHA1 për të gjeneruar një kod 6-shifror që ndryshon çdo 30 sekonda.
+   - Kjo bazohet në standardin RFC 6238, duke përdorur një "time step" prej 30 sekondash.
+   
+2. **Implementimi i Serverit (`Server.java`):**  
+   - Serveri hap një socket në portin 1234 dhe pret lidhje nga klientët.
+   - Kur klienti lidhet, serveri lexon emrin e përdoruesit dhe kodin TOTP të dërguar nga klienti.
+   - Serveri lexon sekretin nga skedari `shared_secret.txt` dhe gjeneron kodin e pritur TOTP.
+   - Nëse kodi që klienti dërgon përputhet me kodin e serverit, ai pranon autentifikimin; përndryshe, refuzon.
+
+3. **Implementimi i Klientit (`Client.java`):**  
+   - Klienti lidhet me serverin dhe kërkon nga përdoruesi të fusë emrin e tij.
+   - Klienti lexon të njëjtin sekret nga skedari `shared_secret.txt`.
+   - Klienti gjeneron kodin TOTP për momentin aktual dhe e dërgon së bashku me emrin e përdoruesit te serveri.
+   - Më pas pret dhe shfaq përgjigjen nga serveri.
+
+4. **Menaxhimi i sekretit të përbashkët:**  
+   - Sekreti ruhet në një skedar të jashtëm të quajtur `shared_secret.txt`, që duhet të jetë i disponueshëm për të dyja aplikacionet në momentin e ekzekutimit.
+
+---
+
+## Çfarë ndodh kur ekzekutoni këtë sistem?
+
+1. **Starto serverin** duke ekzekutuar klasën `Server`.  
+   - Ai hap portin 1234 dhe pret lidhje nga klientët.
+
+2. **Starto klientin** duke ekzekutuar klasën `Client`.  
+   - Klienti shfaq mesazhin për të futur emrin e përdoruesit.
+   - Pas futjes së emrit, klienti gjeneron një kod TOTP bazuar në kohën aktuale dhe sekretin.
+   - Klienti dërgon emrin dhe kodin te serveri.
+
+3. **Serveri kontrollon kodin TOTP:**  
+   - Serveri gjeneron kodin e pritur në bazë të sekretit dhe kohës.
+   - Nëse kodi i klientit përputhet me kodin e serverit, serveri dërgon mesazhin "Authentication successful. You now have access to the system."
+   - Nëse kodi nuk përputhet, dërgon mesazhin "Authentication failed. Invalid TOTP."
+
+4. **Klienti shfaq mesazhin që merr nga serveri** dhe përfundon procesin.
+
+---
+
+## Përmbledhje
+
+- Projekti demonstron një mënyrë bazike dhe efektive për të verifikuar identitetin me TOTP.
+- Përdor socket TCP për komunikim ndërmjet klientit dhe serverit.
+- Siguron një mekanizëm sigurie që kodet ndryshojnë çdo 30 sekonda dhe janë të vlefshme vetëm për një interval të shkurtër kohe.
+- Është një pikënisje e mirë për të kuptuar autentifikimin me dy faktorë dhe sigurinë në aplikacione.
+
+---
